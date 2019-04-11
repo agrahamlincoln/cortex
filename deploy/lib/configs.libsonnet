@@ -7,11 +7,14 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         # Arguments
         local extraArgs = $._config.configs.extraArgs;
-        local postgres_path = '/configs?sslmode=disable';
+        local postgres_user = $._config.configs.postgresUser;
+        local postgres_password = $._config.configs.postgresPassword;
+        local postgres_db = $._config.configs.postgresDb;
+        local postgres_path = '/' + postgres_db + '?sslmode=disable';
         local postgres_uri = $._config.postgres.name + '.' + $._config.namespace + '.svc.cluster.local';
         local args = [
             '-server.http-listen-port=80',
-            '-database.uri=postgres://postgres@' + postgres_uri + postgres_path,
+            '-database.uri=postgres://' + postgres_user + ':' + postgres_password + '@' + postgres_uri + postgres_path,
             '-database.migrations=/migrations',
         ];
 
