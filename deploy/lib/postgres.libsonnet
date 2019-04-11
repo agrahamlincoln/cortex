@@ -10,7 +10,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             },
             storage: $._config.postgres.volumeSize
         } else {},
-} + {
+
     postgres_secret:
         local postgres_user = $._config.postgres.user;
         local postgres_password = $._config.postgres.password;
