@@ -33,6 +33,10 @@
             labels: { app: $._config.configs.name },
             extraArgs: [],
             resources: {},
+            # For connecting to Postgres
+            postgresUser: 'postgres',
+            postgresPassword: 'postgres',
+            postgresDb: 'configs',
         },
         consul:: {
             name: 'consul',
@@ -59,6 +63,13 @@
             name: 'postgres',
             labels: { app: $._config.postgres.name },
             resources: {},
+            # Authentication
+            user: 'postgres',
+            password: 'postgres',
+            db: 'configs',
+            # Storage/Persistence
+            usePersistentStorage: false,
+            volumeSize: '10Gi'
         },
         querier:: {
             name: 'querier',
