@@ -37,6 +37,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         local env = {
+            PGDATA: '/data/postgres',
             POSTGRES_DB: initial_db,
             POSTGRES_USER: kube.SecretKeyRef($.postgres_secret,
                                              "database_user"),
@@ -50,7 +51,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             ports_+: postgresPorts,
             volumeMounts_+: {
                 'postgres-data': {
-                    mountPath: '/var/lib/postgresql/data'
+                    mountPath: '/data',
+                    subPath: 'postgres'
                 }
             },
             resources+: $._config.postgres.resources,
