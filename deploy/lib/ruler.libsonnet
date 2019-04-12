@@ -7,8 +7,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         # Arguments
         local extraArgs = $._config.ruler.extraArgs;
-        local alertmanager_uri = $._config.alertmanager.name + '.' + $._config.namespace + '.svc.cluster.local/api/prom/alertmanager/';
-        local configs_uri = $._config.configs.name + '.' + $._config.namespace + '.svc.cluster.local';
+        local alertmanager_uri = 'http://' + $._config.alertmanager.name + '.' + $._config.namespace + '.svc.cluster.local/api/prom/alertmanager/';
+        local configs_uri = 'http://' + $._config.configs.name + '.' + $._config.namespace + '.svc.cluster.local';
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
         local args = [
             '-server.http-listen-port=80',
