@@ -25,6 +25,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Arguments
         local extraArgs = $._config.tableManager.extraArgs;
         local args = [
+            '-target=table-manager',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
         ];
 
@@ -34,10 +35,9 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local extraEnv = [{name: key, value: envKVMixin[key]} for key in std.objectFields(envKVMixin)];
         
         # Container
-        local image = $._images.tableManager;
         local resources = $._config.tableManager.resources;
         local tableManagerContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.tableManager.image,
             args+: args + extraArgs,
             env: env + extraEnv,
             ports_: tableManagerPorts,

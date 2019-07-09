@@ -9,6 +9,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local extraArgs = $._config.querier.extraArgs;
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
         local args = [
+            '-target=querier',
             '-server.http-listen-port=80',
             '-querier.frontend-address=query-frontend.' + $._config.namespace + '.svc.cluster.local:9095',
             '-querier.batch-iterators=true',
@@ -38,9 +39,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.querier;
         local querierContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.querier.image,
             env: env + extraEnv,
             args+: args + extraArgs,
             ports_: querierPorts,

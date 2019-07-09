@@ -78,10 +78,9 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.prometheus;
         local prometheusContainer = kube.Container(name) + {
             args+: args,
-            image: image,
+            image: $._config.prometheus.image,
             ports_: prometheusPorts,
             resources+: $._config.prometheus.resources,
             volumeMounts_: {

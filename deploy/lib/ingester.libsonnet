@@ -8,6 +8,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local extraArgs = $._config.ingester.extraArgs;
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
         local args = [
+            '-target=ingester',
             '-ingester.join-after=30s',
             '-ingester.claim-on-rollout=true',
             '-ingester.normalise-tokens=true',
@@ -45,10 +46,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.ingester;
-        local labels = $._config.ingester.labels;
         local ingesterContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.ingester.image,
             ports_: ingesterPorts,
             args+: args + extraArgs,
             env: env + extraEnv,
@@ -72,7 +71,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         kube.Deployment(name) + {
             metadata+: {
-                labels: labels,
+                labels: $._config.ingester.labels,
                 namespace: $._config.namespace,
             },
             spec+: {
@@ -81,7 +80,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: ingesterPod,
                     metadata+: {
-                        labels: labels,
+                        labels: $._config.ingester.labels,
                     },
                 },
                 # Modify rolling update strategy to halt a bad upgrade

@@ -13,9 +13,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.dynamodb;
         local dynamodbContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.dynamodb.image,
             resources+: $._config.dynamodb.resources,
             ports_: dynamodbPorts,
         };

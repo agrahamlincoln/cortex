@@ -30,9 +30,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             },
         };
 
-        local image = $._images.nginx;
         local nginxContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.nginx.image,
             ports_: nginxPorts,
             resources+: $._config.nginx.resources,
             volumeMounts_: nginxConfigVolumeMount,

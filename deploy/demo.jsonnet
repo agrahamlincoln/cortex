@@ -28,11 +28,13 @@
         },
         dynamodb+:: {
             name: 'dynamodb',
+            image: 'amazon/dynamodb-local:latest',
             labels: { app: $._config.dynamodb.name },
             resources: {},
         },
         nginx+:: {
             name: 'nginx',
+            image: 'nginx:1.15',
             labels: { app: $._config.nginx.name },
             configuration: (importstr 'lib/nginx.conf'),
             resources: {},
@@ -40,14 +42,10 @@
         prometheusConfig+:: (import 'lib/prometheusConfig.jsonnet'),
         prometheus+:: {
             name: 'prometheus',
+            image: 'quay.io/prometheus/prometheus:v2.9.2',
             labels: { app: $._config.prometheus.name },
             configuration: std.manifestYamlDoc($._config.prometheusConfig),
             resources: {},
         },
-    },
-    _images+:: {
-        dynamodb: 'amazon/dynamodb-local:latest',
-        nginx: 'nginx:1.15',
-        prometheus: 'quay.io/prometheus/prometheus:v2.6.0'
     },
 }

@@ -27,7 +27,6 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
     postgres_deployment:
         local name = $._config.postgres.name;
         local labels = $._config.postgres.labels;
-        local image = $._images.postgres;
         local initial_db = $._config.postgres.db;
 
         local postgresPorts = {
@@ -46,7 +45,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         local postgresContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.postgres.image,
             env_+: env,
             ports_+: postgresPorts,
             volumeMounts_+: {

@@ -3,11 +3,11 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 {
     query_frontend_deployment:
         local name = $._config.queryFrontend.name;
-        local image = $._images.queryFrontend;
         local labels = $._config.queryFrontend.labels;
         local extraArgs = $._config.queryFrontend.extraArgs;
 
         local args = [
+            '-target=query-frontend',
             '-server.http-listen-port=80',
             '-querier.split-queries-by-day=true',
             '-querier.align-querier-with-step=true',
@@ -23,7 +23,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         local queryFrontendContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.queryFrontend.image,
             args+: args + extraArgs,
             ports_: queryFrontendPorts,
             resources+: $._config.queryFrontend.resources,

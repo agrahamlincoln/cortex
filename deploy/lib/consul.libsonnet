@@ -28,9 +28,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.consul;
         local consulContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.consul.image,
             ports_: consulPorts,
             args+: args,
             env_+: env,

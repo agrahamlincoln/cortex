@@ -11,6 +11,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local configs_uri = 'http://' + $._config.configs.name + '.' + $._config.namespace + '.svc.cluster.local';
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
         local args = [
+            '-target=ruler',
             '-server.http-listen-port=80',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
             '-consul.hostname=' + consul_uri,
@@ -39,9 +40,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
         
         # Container
-        local image = $._images.ruler;
         local rulerContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.ruler.image,
             args+: args + extraArgs,
             ports_: rulerPorts,
             volumeMounts_: schemaConfigVolumeMount,

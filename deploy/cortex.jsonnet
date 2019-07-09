@@ -9,5 +9,4 @@
 (import 'lib/query-frontend.libsonnet') +
 (import 'lib/schemaConfig.libsonnet') +
 (import 'lib/ruler.libsonnet') +
-(import 'lib/table-manager.libsonnet') +
-(import 'images.libsonnet')
+(import 'lib/table-manager.libsonnet')

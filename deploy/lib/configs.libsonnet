@@ -13,6 +13,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local postgres_path = '/' + postgres_db + '?sslmode=disable';
         local postgres_uri = $._config.postgres.name + '.' + $._config.namespace + '.svc.cluster.local';
         local args = [
+            '-target=configs',
             '-server.http-listen-port=80',
             '-database.uri=postgres://' + postgres_user + ':' + postgres_password + '@' + postgres_uri + postgres_path,
             '-database.migrations=/migrations',
@@ -25,9 +26,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         };
 
         # Container
-        local image = $._images.configs;
         local configsContainer = kube.Container(name) + {
-            image: image,
+            image: $._config.configs.image,
             args+: args + extraArgs,
             ports_: configsPorts,
             resources+: $._config.configs.resources,
