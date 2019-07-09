@@ -21,7 +21,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Environment Variables
         local env = $._config.ruler.env;
         local envKVMixin = $._config.ruler.envKVMixin;
-        local extraEnv = [{name: key, value: extraEnv[key]} for key in std.objectFields(envKVMixin)];
+        local extraEnv = [{name: key, value: envKVMixin[key]} for key in std.objectFields(envKVMixin)];
 
         local rulerPorts = {
             http: {

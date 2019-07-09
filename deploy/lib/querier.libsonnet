@@ -20,7 +20,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Environment Variables
         local env = $._config.ingester.env;
         local envKVMixin = $._config.querier.envKVMixin;
-        local extraEnv = [{name: key, value: extraEnv[key]} for key in std.objectFields(envKVMixin)];
+        local extraEnv = [{name: key, value: envKVMixin[key]} for key in std.objectFields(envKVMixin)];
 
         # SchemaConfig volume
         local schemaConfigVolume = kube.ConfigMapVolume($.schema_configmap);

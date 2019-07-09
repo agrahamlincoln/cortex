@@ -31,7 +31,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Environment Variables
         local env = $._config.tableManager.env;
         local envKVMixin = $._config.tableManager.envKVMixin;
-        local extraEnv = [{name: key, value: extraEnv[key]} for key in std.objectFields(envKVMixin)];
+        local extraEnv = [{name: key, value: envKVMixin[key]} for key in std.objectFields(envKVMixin)];
         
         # Container
         local image = $._images.tableManager;
