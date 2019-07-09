@@ -11,13 +11,13 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local args = [
             '-server.http-listen-port=80',
             '-distributor.shard-by-all-labels=true',
-            '-consul.hostname=' + consul_uri
+            '-consul.hostname=' + consul_uri,
         ];
 
         # Ports
         local distributorPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -33,7 +33,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Pod
         local distributorPod = kube.PodSpec + {
             containers_: {
-                distributor: distributorContainer
+                distributor: distributorContainer,
             },
         };
 
@@ -46,7 +46,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: distributorPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },
@@ -60,7 +60,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             target_pod: $.distributor_deployment.spec.template,
             metadata+: {
                 labels: labels,
-                namespace: $._config.namespace
+                namespace: $._config.namespace,
             },
         },
 }

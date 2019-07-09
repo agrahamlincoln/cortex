@@ -25,7 +25,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local rulerPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -34,7 +34,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local schemaConfigVolumeMount = {
             config_volume: {
                 mountPath: '/etc/cortex',
-                readOnly: true
+                readOnly: true,
             },
         };
         
@@ -53,7 +53,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 ruler: rulerContainer,
             },
             volumes_: {
-                config_volume: schemaConfigVolume
+                config_volume: schemaConfigVolume,
             },
         };
 
@@ -66,7 +66,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: rulerPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },

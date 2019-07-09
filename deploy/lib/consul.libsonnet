@@ -11,12 +11,12 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             '-ui',
             '-server',
             '-client=0.0.0.0',
-            '-bootstrap'
+            '-bootstrap',
         ];
 
         # Environment Variables
         local env = {
-            CHECKPOINT_DISABLE: '1'
+            CHECKPOINT_DISABLE: '1',
         };
 
         # Ports
@@ -39,7 +39,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local consulPod = kube.PodSpec + {
             containers_: {
-                consul: consulContainer
+                consul: consulContainer,
             },
         };
         
@@ -74,7 +74,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 ports: [
                     {
                         port: 8500,
-                        targetPort: 8500
+                        targetPort: 8500,
                     },
                 ],
             },

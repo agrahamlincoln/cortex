@@ -69,7 +69,7 @@
             db: 'configs',
             # Storage/Persistence
             usePersistentStorage: false,
-            volumeSize: '10Gi'
+            volumeSize: '10Gi',
         },
         querier:: {
             name: 'querier',

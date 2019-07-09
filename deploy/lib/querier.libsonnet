@@ -27,13 +27,13 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local schemaConfigVolumeMount = {
             config_volume: {
                 mountPath: '/etc/cortex',
-                readOnly: true
+                readOnly: true,
             },
         };
 
         local querierPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -54,7 +54,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 querier: querierContainer,
             },
             volumes_: {
-                config_volume: schemaConfigVolume
+                config_volume: schemaConfigVolume,
             },
         };
 
@@ -69,7 +69,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: querierPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },

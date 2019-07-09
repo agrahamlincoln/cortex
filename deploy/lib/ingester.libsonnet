@@ -12,7 +12,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             '-ingester.claim-on-rollout=true',
             '-ingester.normalise-tokens=true',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
-            '-consul.hostname=' + consul_uri
+            '-consul.hostname=' + consul_uri,
         ];
         
         # Environment Variables
@@ -25,7 +25,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 path: '/ready',
                 port: 80,
             },
-            initialDelaySeconds: 15
+            initialDelaySeconds: 15,
         };
 
         # SchemaConfig volume
@@ -33,14 +33,14 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local schemaConfigVolumeMount = {
             config_volume: {
                 mountPath: '/etc/cortex',
-                readOnly: true
+                readOnly: true,
             },
         };
 
         # Ports
         local ingesterPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -66,7 +66,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             # They will exit early when completely flushed
             terminationGracePeriodSeconds: 2400,
             volumes_: {
-                config_volume: schemaConfigVolume
+                config_volume: schemaConfigVolume,
             },
         };
 
@@ -81,7 +81,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: ingesterPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
                 # Modify rolling update strategy to halt a bad upgrade
@@ -94,6 +94,5 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                     },
                 },
             },
-
         },
 }

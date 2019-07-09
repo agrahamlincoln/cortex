@@ -11,14 +11,14 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local schemaConfigVolumeMount = {
             config_volume: {
                 mountPath: '/etc/cortex',
-                readOnly: true
+                readOnly: true,
             },
         };
 
         # Ports
         local tableManagerPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -42,17 +42,17 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             env: env + extraEnv,
             ports_: tableManagerPorts,
             volumeMounts_: schemaConfigVolumeMount,
-            resources: resources
+            resources: resources,
         };
 
         # Pod
         local tableManagerPod = kube.PodSpec + {
             containers_: {
-                ['table-manager']: tableManagerContainer
+                ['table-manager']: tableManagerContainer,
             },
             volumes_: {
-                config_volume: schemaConfigVolume
-            }
+                config_volume: schemaConfigVolume,
+            },
         };
 
         kube.Deployment(name) + {
@@ -64,10 +64,10 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: tableManagerPod,
                     metadata+: {
-                        labels: labels
-                    }
+                        labels: labels,
+                    },
                 },
-            }
+            },
         },
 
 }

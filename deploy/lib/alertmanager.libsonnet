@@ -31,7 +31,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local alertmanagerPod = kube.PodSpec + {
             containers_: {
-                alertmanager: alertmanagerContainer
+                alertmanager: alertmanagerContainer,
             },
         };
 
@@ -44,7 +44,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: { 
                     spec: alertmanagerPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },

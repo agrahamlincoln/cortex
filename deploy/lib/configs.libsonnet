@@ -20,7 +20,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local configsPorts = {
             http: {
-                containerPort: 80
+                containerPort: 80,
             },
         };
 
@@ -35,7 +35,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local configsPod = kube.PodSpec + {
             containers_: {
-                configs: configsContainer
+                configs: configsContainer,
             },
         };
 
@@ -48,7 +48,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: configsPod,
                     metadata+:{ 
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },
@@ -62,7 +62,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             target_pod: $.configs_deployment.spec.template,
             metadata+: {
                 labels: labels,
-                namespace: $._config.namespace
+                namespace: $._config.namespace,
             },
         },
 }

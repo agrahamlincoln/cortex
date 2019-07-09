@@ -18,7 +18,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 containerPort: 80,
             },
             grpc: {
-                containerPort: 9095
+                containerPort: 9095,
             },
         };
 
@@ -32,8 +32,9 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local queryFrontendPod = kube.PodSpec + {
             containers_: {
                 ['query-frontend']: queryFrontendContainer
-            }
+            },
         };
+
         kube.Deployment(name) + {
             metadata+: {
                 namespace: $._config.namespace,
@@ -44,7 +45,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: queryFrontendPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },
@@ -69,12 +70,12 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                     {
                         port: 80,
                         targetPort: 80,
-                        name: 'http'
+                        name: 'http',
                     },
                     {
                         port: 9095,
                         targetPort: 9095,
-                        name: 'grpc'
+                        name: 'grpc',
                     },
                 ],
             },

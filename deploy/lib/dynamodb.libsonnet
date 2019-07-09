@@ -8,7 +8,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Ports
         local dynamodbPorts = {
             http: {
-                containerPort: 8000
+                containerPort: 8000,
             },
         };
 
@@ -22,7 +22,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local dynamodbPod = kube.PodSpec + {
             containers_: {
-                dynamodb: dynamodbContainer
+                dynamodb: dynamodbContainer,
             },
         };
 
@@ -35,7 +35,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 template+: {
                     spec: dynamodbPod,
                     metadata+: {
-                        labels: labels
+                        labels: labels,
                     },
                 },
             },

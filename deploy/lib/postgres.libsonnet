@@ -8,7 +8,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             metadata+: {
                 namespace: $._config.namespace,
             },
-            storage: $._config.postgres.volumeSize
+            storage: $._config.postgres.volumeSize,
         } else {},
 
     postgres_secret:
@@ -16,12 +16,12 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local postgres_password = $._config.postgres.password;
         kube.Secret($._config.postgres.name) {
             metadata+: {
-                namespace: $._config.namespace
+                namespace: $._config.namespace,
             },
             data_+: {
                 database_user: postgres_user,
-                database_password: postgres_password
-            }
+                database_password: postgres_password,
+            },
         },
 
     postgres_deployment:
@@ -32,7 +32,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 
         local postgresPorts = {
             postgresql: {
-                containerPort: 5432
+                containerPort: 5432,
             },
         };
 
@@ -52,8 +52,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             volumeMounts_+: {
                 'postgres-data': {
                     mountPath: '/data',
-                    subPath: 'postgres'
-                }
+                    subPath: 'postgres',
+                },
             },
             resources+: $._config.postgres.resources,
         };
@@ -82,10 +82,10 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                         template+: {
                             spec: postgresPod,
                             metadata+: {
-                                labels: labels
+                                labels: labels,
                             },
                         },
-                    }
+                    },
                 },
             ] + (if $._config.postgres.usePersistentStorage
                  then [$._postgres_pvc] else []),
