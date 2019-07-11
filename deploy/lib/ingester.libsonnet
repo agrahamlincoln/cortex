@@ -7,6 +7,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Arguments
         local extraArgs = $._config.ingester.extraArgs;
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
+        local memcached_uri = $._config.memcached.name + '.' + $._config.namespace + '.svc.cluster.local';
         local args = [
             '-target=ingester',
             '-ingester.join-after=30s',
@@ -14,6 +15,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             '-ingester.normalise-tokens=true',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
             '-consul.hostname=' + consul_uri,
+            '-memcached.hostname=' + memcached_uri,
         ];
         
         # Environment Variables

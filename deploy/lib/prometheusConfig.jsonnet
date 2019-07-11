@@ -76,6 +76,7 @@ local prom = {
         prom.PodJob('cortex/configs', 'configs'),
         prom.PodJob('cortex/distributor', 'distributor'),
         prom.PodJob('cortex/ingester', 'ingester'),
+        prom.PodJob('cortex/memcached', 'memcached'),
         prom.PodJob('cortex/querier', 'querier'),
         prom.PodJob('cortex/query-frontend', 'query-frontend'),
         prom.PodJob('cortex/ruler', 'ruler'),

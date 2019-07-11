@@ -1,3 +1,5 @@
+local kube = import 'kube-libsonnet/kube.libsonnet';
+
 (import 'cortex.jsonnet') +
 (import 'lib/dynamodb.libsonnet') +
 (import 'lib/prometheus.libsonnet') +
@@ -5,32 +7,22 @@
 {
     _config+:: {
         local dynamodb_uri = 'dynamodb://user:pass@' + $._config.dynamodb.name + '.' + $._config.namespace + '.svc.cluster.local:8000',
-        #ingester, ruler, querier all need to talk to dynamodb
-        ingester+:: {
-            extraArgs+: [
-                '-dynamodb.url=' + dynamodb_uri,
-            ],
-        },
-        querier+:: {
-            extraArgs+: [
-                '-dynamodb.url=' + dynamodb_uri,
-            ],
-        },
-        ruler+:: {
-            extraArgs+: [
-                '-dynamodb.url=' + dynamodb_uri,
-            ],
-        },
-        tableManager+:: {
-            extraArgs+: [
-                '-dynamodb.url=' + dynamodb_uri,
-            ],
-        },
         dynamodb+:: {
             name: 'dynamodb',
             image: 'amazon/dynamodb-local:latest',
             labels: { app: $._config.dynamodb.name },
             resources: {},
+        },
+        ingester+:: {
+            extraArgs+: [
+                '-dynamodb.url=' + dynamodb_uri,
+            ],
+        },
+        memcached+:: {
+            metrics: true,
+            extraArgs+: [
+                "-I 5m",
+            ],
         },
         nginx+:: {
             name: 'nginx',
@@ -47,5 +39,22 @@
             configuration: std.manifestYamlDoc($._config.prometheusConfig),
             resources: {},
         },
+        querier+:: {
+            extraArgs+: [
+                '-dynamodb.url=' + dynamodb_uri,
+            ],
+        },
+        ruler+:: {
+            extraArgs+: [
+                '-dynamodb.url=' + dynamodb_uri,
+            ],
+        },
+        tableManager+:: {
+            extraArgs+: [
+                '-dynamodb.url=' + dynamodb_uri,
+            ],
+        },
     },
+    namespace:
+        kube.Namespace($._config.namespace)
 }

@@ -5,12 +5,14 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local name = $._config.queryFrontend.name;
         local labels = $._config.queryFrontend.labels;
         local extraArgs = $._config.queryFrontend.extraArgs;
+        local memcached_uri = $._config.memcached.name + '.' + $._config.namespace + '.svc.cluster.local';
 
         local args = [
             '-target=query-frontend',
             '-server.http-listen-port=80',
             '-querier.split-queries-by-day=true',
             '-querier.align-querier-with-step=true',
+            '-memcached.hostname=' + memcached_uri,
         ];
 
         local queryFrontendPorts = {

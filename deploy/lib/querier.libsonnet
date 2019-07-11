@@ -8,6 +8,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         # Arguments
         local extraArgs = $._config.querier.extraArgs;
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
+        local memcached_uri = $._config.memcached.name + '.' + $._config.namespace + '.svc.cluster.local';
         local args = [
             '-target=querier',
             '-server.http-listen-port=80',
@@ -16,6 +17,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             '-querier.ingester-streaming=true',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
             '-consul.hostname=' + consul_uri,
+            '-memcached.hostname=' + memcached_uri,
         ];
         
         # Environment Variables

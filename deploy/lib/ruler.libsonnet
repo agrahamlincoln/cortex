@@ -10,6 +10,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local alertmanager_uri = 'http://' + $._config.alertmanager.name + '.' + $._config.namespace + '.svc.cluster.local/api/prom/alertmanager/';
         local configs_uri = 'http://' + $._config.configs.name + '.' + $._config.namespace + '.svc.cluster.local';
         local consul_uri = $._config.consul.name + '.' + $._config.namespace + '.svc.cluster.local:8500';
+        local memcached_uri = $._config.memcached.name + '.' + $._config.namespace + '.svc.cluster.local';
         local args = [
             '-target=ruler',
             '-server.http-listen-port=80',
@@ -17,6 +18,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             '-consul.hostname=' + consul_uri,
             '-ruler.alertmanager-url=' + alertmanager_uri,
             '-ruler.configs.url=' + configs_uri,
+            '-memcached.hostname=' + memcached_uri,
         ];
 
         # Environment Variables

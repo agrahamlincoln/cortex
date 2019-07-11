@@ -8,7 +8,7 @@
 {
     _config+:: {
         namespace: 'cortex',
-        image:: "quay.io/cortexproject/cortex",
+        image:: "quay.io/cortexproject/cortex:master-be013707",
         schemaConfig_:: [{
             from: '2019-01-01',
             store: 'aws-dynamo',
@@ -64,6 +64,15 @@
             envKVMixin:: {},
             env: [],
             resources: {},
+        },
+        memcached:: {
+            name: 'memcached',
+            image: 'memcached:1.5',
+            labels: { app: $._config.memcached.name },
+            exporterImage: 'quay.io/prometheus/memcached-exporter:v0.5.0',
+            metrics: false,
+            maxItemMemory: 64, #megabytes
+            extraArgs: [],
         },
         postgres:: {
             name: 'postgres',
