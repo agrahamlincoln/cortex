@@ -84,8 +84,11 @@
             password: 'postgres',
             db: 'configs',
             # Storage/Persistence
-            usePersistentStorage: false,
-            volumeSize: '10Gi',
+            storage: {
+                persistent: true,
+                storageClass: 'default',
+                volumeSize: '1Gi',
+            },
         },
         querier:: {
             name: 'querier',

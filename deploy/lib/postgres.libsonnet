@@ -3,12 +3,14 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
 {
     _postgres_pvc::
         local name = $._config.postgres.name + '-data';
-        if $._config.postgres.usePersistentStorage
-        then kube.PersistentVolumeClaim(name) {
+        if $._config.postgres.storage.persistent
+        then kube.PersistentVolumeClaim(name) + {
+            [if $._config.postgres.storage.storageClass != 'default' then 'storageClass']::
+                $._config.postgres.storage.storageClass,
             metadata+: {
                 namespace: $._config.namespace,
             },
-            storage: $._config.postgres.volumeSize,
+            storage: $._config.postgres.storage.volumeSize,
         } else {},
 
     postgres_secret:
@@ -63,7 +65,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             },
             volumes_: {
                 'postgres-data': (
-                    if $._config.postgres.usePersistentStorage
+                    if $._config.postgres.storage.persistent
                     then kube.PersistentVolumeClaimVolume($._postgres_pvc)
                     else kube.EmptyDirVolume()
                 ),
@@ -86,7 +88,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                         },
                     },
                 },
-            ] + (if $._config.postgres.usePersistentStorage
+            ] + (if $._config.postgres.storage.persistent
                  then [$._postgres_pvc] else []),
         },
 
