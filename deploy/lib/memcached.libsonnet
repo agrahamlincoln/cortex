@@ -49,7 +49,7 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
             },
             spec+: {
                 template+: {
-                    spec+: memcachedPod
+                    spec+: memcachedPod,
                 },
             },
         },
@@ -75,7 +75,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 namespace: $._config.namespace,
             },
             spec+: {
-                ports: servicePorts
+                clusterIP: "None",
+                ports: servicePorts,
             },
         },
 }
