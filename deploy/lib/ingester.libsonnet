@@ -11,7 +11,6 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
         local args = [
             '-target=ingester',
             '-ingester.join-after=30s',
-            '-ingester.claim-on-rollout=true',
             '-ingester.normalise-tokens=true',
             '-config-yaml=/etc/cortex/schemaConfig.yaml',
             '-consul.hostname=' + consul_uri,

@@ -10,7 +10,7 @@ local default_fifocache_size = 102400;
 {
     _config+:: {
         namespace: 'cortex',
-        image:: "quay.io/cortexproject/cortex:master-be013707",
+        image:: "quay.io/cortexproject/cortex:v0.3.0",
         schemaConfig_:: [{
             from: '2019-01-01',
             store: 'aws-dynamo',
