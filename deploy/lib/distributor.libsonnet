@@ -68,5 +68,8 @@ local kube = import 'kube-libsonnet/kube.libsonnet';
                 labels: labels,
                 namespace: $._config.namespace,
             },
+            spec+: {
+                clusterIP: 'None'
+            },
         },
 }
